@@ -1,0 +1,276 @@
+{% extends 'layout.html'%} {%block head%}
+<title>{{user[1]}}</title>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/index.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/user.css') }}"
+/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+
+<style>
+  
+  .btn1 {
+    background-color: #008cff; /* Green */
+    border: none;
+    border-radius: 15px;
+    color: white;
+    padding: 3%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+  .btn2 {
+    background-color: #008cff; /* Green */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 5%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .btn3 {
+    background-color: #008cff; /* Green */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .btn1:hover{
+    background-color: #005092;
+    color: floralwhite;
+  }
+  .top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .post-container {
+      margin-bottom: 30px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 5px;
+  }
+  .post-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
+  .post-title1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      margin: 3%;
+  }
+  .post-paragraph {
+      font-size: 16px;
+      margin-bottom: 10px;
+  }
+  .read-more {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+  }
+  .full-paragraph {
+      display: none;
+      margin-top: 10px;
+  }
+  
+</style>
+<script>
+  function toggleParagraph(postId) {
+     var paragraph = document.getElementById(postId);
+     var readMoreBtn = document.getElementById(postId + "-read-more");
+
+     if (paragraph.style.display === "none") {
+         paragraph.style.display = "block";
+         readMoreBtn.innerHTML = "Read Less";
+     } else {
+         paragraph.style.display = "none";
+         readMoreBtn.innerHTML = "Read More";
+     }
+ }
+</script>
+<script>
+  // Function to delete the post
+function deletePost(postID) {
+    fetch(`/deletepost/${postID}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Perform any necessary UI updates or redirection
+            // For example, remove the deleted post from the DOM or refresh the page
+            location.reload(); // Refresh the page to reflect the changes
+        }
+    })
+    .catch(error => console.error(error));
+}
+
+</script>
+<script>
+  function displayFeaturedPost(content) {
+      var featuredContentElement = document.getElementById('featured-content');
+      featuredContentElement.innerHTML = content;
+  }
+</script>
+
+<!-- publish Content -->
+
+<script>
+// Wait for the DOM content to be loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Get the parent container element
+  const postContainer = document.querySelector('.post-container');
+
+  // Attach the click event listener to the parent container
+  postContainer.addEventListener('click', function(event) {
+    // Check if the clicked element has the class 'publish-button'
+    if (event.target.classList.contains('publish-button')) {
+      event.preventDefault();
+
+      // Get the post ID from the data-post-id attribute
+      const postID = event.target.dataset.postId;
+
+      // Call the publishPost function with the postID
+      publishPost(postID);
+    }
+  });
+
+  // Function to publish the post
+  function publishPost(postID) {
+    fetch(`/publishpost/${postID}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const publishedPostContainer = document.getElementById('published-post-container');
+            publishedPostContainer.innerHTML = data.content;
+        }
+    })
+    .catch(error => console.error(error));
+  }
+});
+
+
+</script>
+
+{% endblock head %} {%block body%}
+<div class="container">
+  <div class="userContainer">
+    <section class="head top">
+      <div><img src="{{user[4]}}" alt="{{user[1]}}" class="userProfilePicture" /></div>
+      <div>
+        <h2 class="userName ">{{user[1]}}</h2>
+      </div>
+    </section>
+    <section class="stats">
+      <!-- <p class="userRole">Role: Admin</p> -->
+      <p class="userViews">Views: {{views}}</p>
+      <p class="userCreationDate">Join Date: {{user[7]}}</p>
+    </section>
+    
+    <section class="stats">
+      {% if session["userName"] == user[1] %}
+      <a href="/accountsettings" class="btn1 btnLink textPrimary"
+        >Account settings</a
+      >
+      <!-- <a href="/dashboard/{{user[1]}}" class="btn1 btnLink textPrimary"
+        >Dashboard</a
+      > -->
+      <a href="/createpost" class="btn1 textPrimary">Create a post</a> 
+     
+      {% endif %} {% if user[5] == "admin" and session["userName"] == user[1] %}
+      <a href="/admin" class="btn btnLink textPrimary">admin panel</a>
+      {% endif %}
+    </section>
+    {% if "userName" in session and session['userName'] == "{{user[1]}}"%}
+    <a href="/dashboard/{{session['userName']}}">dashboard</a>
+    {% endif %}
+  </div>
+  {% if showPosts %}
+  
+  {% for post in posts %}
+  <div class="post-container" >
+    <h4 class="post-title1 ">Manage Posts</h4>
+    <p class="title textPrimary" href="/post/{{post[0]}} ">{{post[1]}}</p>
+    <div class="content" tag="content">{{post[3]|safe}}</div>
+    <section>
+      <a href="/editpost/{{post[0]}}" class="btn2 btnLink textPrimary">Edit</a>
+      <a
+        href="/deletepost/{{post[0]}}/redirect=dashboard&{{session['userName'].lower()}}"
+        class="btn2 btnLink textPrimary"
+        >Delete</a
+      >
+    </section>
+
+    <div class="info">
+      <p>Creation Time: {{post[6]}}</p>
+    </div>
+    <div class="info">
+      <p>Creation Date: {{post[5]}}</p>
+    </div>
+    {% if request.path == "/admin/posts" %}
+    <p>
+      Author:
+      <a href="/user/{{post[4].lower()}}" class="textPrimary">{{post[4]}}</a>
+    </p>
+    {% endif %}
+  </div>
+  <div class="post-container" id="post-{{ post[0] }}"> 
+    <h1 class="post-title1">Ai Blog Posts</h1>
+    {% for post in blog_data %}
+    {% if post[3] == false %}
+        <div class="post-container">
+            <h2 class="post-title">{{ post[1] }}</h2>
+            <p class="post-paragraph">{{ post[2][:100] }}</p>
+            <p class="full-paragraph" id="{{ post[0] }}">{{ post[2] }}</p>
+            <a class="read-more" id="{{ post[0] }}-read-more" onclick="toggleParagraph('{{ post[0] }}')">Read More</a>
+            <section>
+                <a href="/deletepost/{{ post[0] }}" class="btn3 btnLink textPrimary">Delete</a>
+                <a href="/publishpost/{{ post[0] }}" data-post-id="{{ post[0] }}" class="btn3 btnLink textPrimary publish-button">Publish</a>
+                {% if post[4] == 'featured' %}
+                    <a href="displayFeaturedPost('{{ post[2] }}')" data-post-id="{{ post[0] }}" class="btn3 btnLink textPrimary publish-button" onclick="">Featured post</a>
+                {% else %}
+                    <a href="#" data-post-id="{{ post[0] }}" class="btn3 btnLink textPrimary publish-button">Feature post</a>
+                {% endif %}
+            </section>
+        </div>
+    {% endif %}
+{% endfor %}
+
+</div>
+          
+  </div>
+
+  {% endfor %} {% endif %} {% if showComments %}
+  <h1 class="commentsText">Comments</h1>
+  {% for comment in comments %}
+ 
+  {% endfor %} {% endif %}
+  <div id="featured-content"></div>
+  
+</div>
+{% endblock body %}

@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,200;1,400;1,500&display=swap');
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Bitter', serif;
+}
+
+html,
+body {
+    font-family: "Muli", sans-serif;
+    font-size: 16px;
+    color: #505050;
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+.avatar {
+    /* vertical-align: middle; */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 10px;
+}
+.admin_detail{
+    padding-left: 10pt;
+}
+.admin_name{
+    font-family: 'Bitter', serif;
+    padding-top: 10pt;
+}
+.loh_button_container{
+    width: 100%;
+}
+.logout_button{
+    font-family: 'Bitter', serif;
+    float: right;
+    background-color: aqua;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 20px;
+    text-decoration: none;
+}
+.save_img{
+  width: 20px;
+  height: 20px;
+  display: inline;
+  align-items: center;
+}
+.logout_button:hover, .logout_button:active {
+    background-color: cornflowerblue;
+}
+.tob_bar{
+    display: flex;
+}
+.cointainer{
+    display: flex;
+}
+#editor2{
+    border: 20px;
+}
+
+
+#container {
+    margin: 20px auto;
+}
+.ck-editor__editable[role="textbox"] {
+    /* editing area */
+    min-height: 200px;
+}
+.ck-content .image {
+    /* block images */
+    max-width: 80%;
+    margin: 20px auto;
+}

@@ -1,0 +1,535 @@
+{% extends 'layout.html'%} {%block head%}
+<title>Blog site</title>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/index.css') }}"
+/>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css"
+/>
+<link rel="stylesheet" href="../static/vendor/bootstrap.min.css" />
+<link rel="stylesheet" href="../static/vendor/font-awesome.css" />
+<link rel="stylesheet" href="../static/vendor/slick.css" />
+<link rel="stylesheet" href="../static/vendor/slick-theme.css" />
+<link rel="stylesheet" href="../static/vendor/base.css" />
+<link rel="stylesheet" href="../static/plugins/plugins.css" />
+<link rel="stylesheet" href="../static/style.css" />
+
+<script src="../static/js/vendor/modernizr.min.js"></script>
+<!-- jQuery JS -->
+<script src="../static/js/vendor/jquery.js"></script>
+<!-- Bootstrap JS -->
+<script src="../static/js/vendor/bootstrap.min.js"></script>
+<script src="../static/js/vendor/slick.min.js"></script>
+<script src="../static/js/vendor/tweenmax.min.js"></script>
+<script src="../static/js/vendor/js.cookie.js"></script>
+<script src="../static/js/vendor/jquery.style.switcher.js"></script>
+<script src="../static/js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleParagraph(postId) {
+    var paragraph = document.getElementById(postId);
+    var readMoreBtn = document.getElementById(postId + "-read-more");
+
+    if (paragraph.style.display === "none") {
+      paragraph.style.display = "block";
+      readMoreBtn.innerHTML = "Read Less";
+    } else {
+      paragraph.style.display = "none";
+      readMoreBtn.innerHTML = "Read More";
+    }
+  }
+</script>
+
+<style>
+  /* Additional custom CSS styles */
+  .post-container {
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  .post-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .post-paragraph {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .read-more {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .full-paragraph {
+    display: none;
+    margin-top: 10px;
+  }
+</style>
+
+{% endblock head %} {%block body%}
+
+<div class="main-wrapper">
+  <div class="mouse-cursor cursor-outer"></div>
+  <div class="mouse-cursor cursor-inner"></div>
+
+  <!-- Start Header -->
+  <header class="header axil-header header-light header-sticky">
+    <div class="header-wrap">
+      <div class="row justify-content-between align-items-center">
+        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-3 col-12">
+          <div class="logo">
+            <a href="/">
+              <img
+                class="dark-logo"
+                src="../static/images/logo/logo-black.png"
+                alt="Blogar logo"
+              />
+              <img
+                class="light-logo"
+                src="../static/images/logo/logo-white2.png"
+                alt="Blogar logo"
+              />
+            </a>
+          </div>
+        </div>
+
+        <div class="col-xl-6 d-none d-xl-block">
+          <div class="mainmenu-wrapper">
+            <nav class="mainmenu-nav">
+              <!-- Start Mainmanu Nav -->
+              <ul class="mainmenu">
+                <li class="menu-item-has-children"><a href="/">Home</a></li>
+                <li class="menu-item-has-children megamenu-wrapper">
+                  <a href="#">Category</a>
+                </li>
+              </ul>
+              <!-- End Mainmanu Nav -->
+            </nav>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-8 col-md-8 col-sm-9 col-12">
+          <div class="header-search text-end d-flex align-items-center">
+            <form class="header-search-form d-sm-block d-none">
+              <div class="axil-search form-group">
+                <button type="submit" class="search-button">
+                  <i class="fal fa-search"></i>
+                </button>
+                <input type="text" class="form-control" placeholder="Search" />
+              </div>
+            </form>
+            <div class="mobile-search-wrapper d-sm-none d-block">
+              <button class="search-button-toggle">
+                <i class="fal fa-search"></i>
+              </button>
+              <form class="header-search-form">
+                <div class="axil-search form-group">
+                  <button type="submit" class="search-button">
+                    <i class="fal fa-search"></i>
+                  </button>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search"
+                  />
+                </div>
+              </form>
+            </div>
+
+            <!-- End Hamburger Menu  -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Start Header -->
+
+  <!-- Start Mobile Menu Area  -->
+  <div class="popup-mobilemenu-area">
+    <div class="inner">
+      <div class="mobile-menu-top">
+        <div class="logo">
+          <a href="index.html">
+            <img
+              class="dark-logo"
+              src="../static/images/logo/logo-black.png"
+              alt="Logo Images"
+            />
+            <img
+              class="light-logo"
+              src="../static/images/logo/logo-white2.png"
+              alt="Logo Images"
+            />
+          </a>
+        </div>
+        <div class="mobile-close">
+          <div class="icon">
+            <i class="fal fa-times"></i>
+          </div>
+        </div>
+      </div>
+      <ul class="mainmenu">
+        <li class="menu-item-has-children"><a href="#">Home</a></li>
+        <li class="menu-item-has-children"><a href="#">Categories</a></li>
+        <li class="menu-item-has-children"><a href="#">Post Format</a></li>
+        <li class="menu-item-has-children"><a href="#">Pages</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- End Mobile Menu Area  -->
+
+  <!-- Start Banner Area -->
+  <h1 class="d-none">Home Default Blog</h1>
+  <div class="slider-area bg-color-grey">
+    <div class="axil-slide slider-style-1">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="slider-activation axil-slick-arrow">
+              <!-- Start Single Slide  -->
+              <div class="content-block">
+                <!-- Start Post Thumbnail  -->
+                <!-- <div class="post-thumbnail">
+                                        <a href="">
+                                            <img src="#" alt="Post Images">
+                                        </a>
+                                    </div> -->
+                <!-- End Post Thumbnail  -->
+                <div class="container">
+                  <h1 class="m-2">Blog Posts</h1>
+                  <div class="posts">
+                    {% for post in posts %}
+                    <div class="post">
+                      <h3 class="post-title">{{ post[1] }}</h3>
+                      <p class="post-content">{{ post[2][:100]}}</p>
+                      <p class="full-paragraph" id="{{ post[0] }}">
+                        {{ post[3] }}
+                      </p>
+                      <a
+                        class="read-more"
+                        id="{{ post[0] }}-read-more"
+                        onclick="toggleParagraph('{{ post[0] }}')"
+                        >Read More</a
+                      >
+                    </div>
+                    {% endfor %}
+                  </div>
+                  <h1>Ai Blog Posts</h1>
+                  {% for post in blog_data %} {% if post[3] == true %}
+                  <div class="post-container">
+                    <h2 class="post-title">{{ post[1] }}</h2>
+                    <p class="post-paragraph">{{ post[2][:100] }}</p>
+                    <p class="full-paragraph" id="{{ post[0] }}">
+                      {{ post[2] }}
+                    </p>
+                    <a
+                      class="read-more"
+                      id="{{ post[0] }}-read-more"
+                      onclick="toggleParagraph('{{ post[0] }}')"
+                      >Read More</a
+                    >
+                  </div>
+                  {% endif %} {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Banner Area -->
+
+  <!-- Start Featured Area  -->
+  <div class="axil-featured-post axil-section-gap bg-color-grey">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-title">
+            <h2 class="title">More Featured Posts.</h2>
+          </div>
+          <div id="featured-content"></div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- Start Single Post  -->
+        <div class="col-lg-6 col-xl-6 col-md-12 col-12 mt--30">
+          <div
+            class="content-block content-direction-column axil-control is-active post-horizontal thumb-border-rounded"
+          >
+            <div class="post-content">
+              <div class="post-cat">
+                <div class="post-cat-list">
+                  <a class="hover-flip-item-wrapper" href="#">
+                    <span class="hover-flip-item">
+                      <span data-text="APPLE DESIGN">APPLE DESIGN</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <h3 class="title">
+                <a href="single-post.html"
+                  >Apple Design Is Coming To Your Home</a
+                >
+              </h3>
+
+              <div class="post-meta">
+                <div class="post-author-avatar border-rounded">
+                  <img
+                    src="../static/images/post-images/author/author-image-1.png"
+                    alt="Author Images"
+                  />
+                </div>
+                <div class="content">
+                  <h6 class="post-author-name">
+                    <a class="hover-flip-item-wrapper" href="">
+                      <span class="hover-flip-item">
+                        <span data-text="Ismat Jahan">Ismat Jahan</span>
+                      </span>
+                    </a>
+                  </h6>
+                  <ul class="post-meta-list">
+                    <li>Feb 17, 2019</li>
+                    <li>300k Views</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="post-thumbnail">
+              <a href="post-details.html">
+                <img
+                  src="../static/images/post-images/post-images-1.jpg"
+                  alt="Post Images"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- End Single Post  -->
+
+        <!-- Start Single Post  -->
+        <div class="col-lg-6 col-xl-6 col-md-12 col-12 mt--30">
+          <div
+            class="content-block content-direction-column axil-control post-horizontal thumb-border-rounded"
+          >
+            <div class="post-content">
+              <div class="post-cat">
+                <div class="post-cat-list">
+                  <a class="hover-flip-item-wrapper" href="#">
+                    <span class="hover-flip-item">
+                      <span data-text="TECH">TECH</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <h4 class="title">
+                <a href="post-details.html"
+                  >Flutter: the good, the bad and the ugly</a
+                >
+              </h4>
+              <div class="post-meta">
+                <div class="post-author-avatar border-rounded">
+                  <img
+                    src="../static/images/post-images/author/author-image-1.png"
+                    alt="Author Images"
+                  />
+                </div>
+                <div class="content">
+                  <h6 class="post-author-name">
+                    <a class="hover-flip-item-wrapper" href="">
+                      <span class="hover-flip-item">
+                        <span data-text="Jone Doe">Jone Doe</span>
+                      </span>
+                    </a>
+                  </h6>
+                  <ul class="post-meta-list">
+                    <li>Feb 17, 2019</li>
+                    <li>300k Views</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="post-thumbnail">
+              <a href="post-details.html">
+                <img
+                  src="../static/images/post-images/post-images-2.jpg"
+                  alt="Post Images"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- End Single Post  -->
+      </div>
+    </div>
+  </div>
+  <!-- End Featured Area  -->
+
+  <!-- Start Categories List  -->
+
+  <!-- Start Categories List  -->
+
+  <!-- Start Trending Post Area  -->
+  <div class="axil-trending-post-area axil-section-gap bg-color-white">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="section-title">
+            <h2 class="title">Most Popular</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Trending Post Area  -->
+
+  <!-- Start Post List Wrapper  -->
+  <div
+    class="axil-post-list-area post-listview-visible-color axil-section-gap bg-color-white"
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-xl-8">
+          <!-- Start Post List  -->
+          <div class="content-block post-list-view axil-control mt--30">
+            <div class="post-thumbnail">
+              <a href="post-details.html">
+                <img
+                  src="../static/images/post-images/post-list-13.jpg"
+                  alt="Post Images"
+                />
+              </a>
+            </div>
+            <div class="post-content">
+              <div class="post-cat">
+                <div class="post-cat-list">
+                  <a class="hover-flip-item-wrapper" href="#">
+                    <span class="hover-flip-item">
+                      <span data-text="DESIGN">DESIGN</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+              <h4 class="title">
+                <a href="post-details.html"
+                  >Get Ready To Up Your Creative Game With The New DJI Mavic Air
+                  2</a
+                >
+              </h4>
+              <div class="post-meta-wrapper">
+                <div class="post-meta">
+                  <div class="content">
+                    <ul class="post-meta-list">
+                      <li>Feb 17, 2019</li>
+                      <li>3 min read</li>
+                    </ul>
+                  </div>
+                </div>
+                <ul class="social-share-transparent justify-content-end">
+                  <li>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="fas fa-link"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- End Post List  -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Post List Wrapper  -->
+
+  <!-- Start Footer Area  -->
+  <div class="axil-footer-area axil-footer-style-1 footer-variation-2">
+    <!-- Start Footer Top Area  -->
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-4">
+            <div class="logo">
+              <a href="index.html">
+                <img
+                  class="dark-logo"
+                  src="../static/images/logo/logo-black.png"
+                  alt="Logo Images"
+                />
+                <img
+                  class="white-logo"
+                  src="../static/images/logo/logo-white2.png"
+                  alt="Logo Images"
+                />
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-8 col-md-8">
+            <!-- Start Post List  -->
+            <div
+              class="d-flex justify-content-start mt_sm--15 justify-content-md-end align-items-center flex-wrap"
+            >
+              <h5 class="follow-title mb--0 mr--20">Follow Us</h5>
+              <ul
+                class="social-icon color-tertiary md-size justify-content-start"
+              >
+                <li>
+                  <a href="#"><i class="fab fa-facebook-f"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                </li>
+                <li>
+                  <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </li>
+              </ul>
+            </div>
+            <!-- End Post List  -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Footer Top Area  -->
+
+    <!-- Start Copyright Area  -->
+    <div class="copyright-area">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-9 col-md-8">
+            <div class="copyright-left">
+              <ul class="mainmenu justify-content-start"></ul>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-4">
+            <div class="copyright-right text-start text-md-end mt_sm--20">
+              <p class="b3">All Rights Reserved © 2023</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Copyright Area  -->
+  </div>
+  <!-- End Footer Area  -->
+
+  <!-- Start Back To Top  -->
+  <a id="backto-top"></a>
+  <!-- End Back To Top  -->
+</div>
+{% endblock body %}
