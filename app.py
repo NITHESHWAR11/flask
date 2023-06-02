@@ -10,8 +10,11 @@ from helpers import (
     get_trending_title,
 )
 
+from flask_mail import Mail, Message
 import sqlite3
 from flask import redirect, jsonify
+from os import getenv
+from dotenv import load_dotenv
 from flask_apscheduler import APScheduler
 from routes.post import postBlueprint
 from routes.user import userBlueprint
@@ -42,12 +45,28 @@ dbFolder()
 usersTable()
 postsTable()
 commentsTable()
+load_dotenv()
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(32)
 app.config["SESSION_PERMANENT"] = True
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = getenv('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail_sender = Mail(app)
 
 scheduler = APScheduler()
+
+def send_email(Body, Subject):
+    msg = Message(f"{Subject}", 
+    sender=getenv("EMAIL_USER"), 
+    recipients=['nitheshwar040@gmail.com'],
+    body=f'{Body}',)
+    mail_sender.send(msg)
 
 @app.context_processor
 def utility_processor():
@@ -64,6 +83,8 @@ def auto_blog():
     title = get_trending_title()  # Fetch title
     blog_para = ai_text(title)  # Generate AI-generated paragraphs
     save_to_database(title, blog_para)  # Save to database
+    send_email(Body="AI Blog ADMIN PANEL Blog GENERATED", 
+                Subject="AI GENERATED AI BLOG KINDLY REVIEW AND PUBLISH THE BLOG")
     return title, blog_para
 
 def save_to_database(title, blog_para):

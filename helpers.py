@@ -29,7 +29,6 @@ from flask import (
     Flask,
     Blueprint,
 )
-
 def currentDate():
     return datetime.now().strftime("%d.%m.%y")
 
@@ -88,7 +87,6 @@ def ai_text(title, max_length=1500):
         no_repeat_ngram_size=3
     )
     return generate_text
-
 
 def addPoints():
     pass
