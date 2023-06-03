@@ -135,4 +135,4 @@ match __name__:
     case "__main__":
         scheduler.add_job(id='shedule task', func=auto_blog, trigger="interval", minutes=60)
         scheduler.start() 
-        app.run(debug=True, host=socket.gethostbyname(socket.gethostname())) 
+        app.run(debug=False, host='0.0.0.0')) 
